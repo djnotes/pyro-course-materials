@@ -1,0 +1,11 @@
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Containerfile
+
+    volumes:
+    - .:/app:Z
+
+    env_file:
+    - env.ini  
