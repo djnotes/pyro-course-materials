@@ -17,6 +17,7 @@ app = Client(
 
 
 @app.on_message()
+@
 def handle_updates(client: Client, message: Message):
     match message.text:
         case "/wind":
@@ -33,7 +34,7 @@ def handle_updates(client: Client, message: Message):
 
 
 app.start()
-
+ 
 app.send_message(chat_id = "dev2000x", text = f"{app.name} started")
 
 idle()
