@@ -34,7 +34,7 @@ def handle_updates(client: Client, message: Message):
 
 app.start()
  
-app.send_message(chat_id = "dev2000xx", text = f"{app.name} started")
+app.send_message(chat_id = "dev2000x", text = f"{app.name} started")
 
 idle()
 
