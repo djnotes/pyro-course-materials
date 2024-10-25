@@ -17,19 +17,19 @@ app = Client(
 
 
 @app.on_message()
-def handle_updates(client: Client, message: Message):
+async def handle_updates(client: Client, message: Message):
     match message.text:
         case "/wind":
-            client.send_photo(chat_id = message.from_user.id, photo = "media/wind.jpg", reply_to_message_id=message.id)
+            await client.send_photo(chat_id = message.from_user.id, photo = "media/wind.jpg", reply_to_message_id=message.id)
         case "/earth":
-            message.reply_photo(photo = "media/earth.jpg", reply_to_message_id=message.id)
+            await message.reply_photo(photo = "media/earth.jpg", reply_to_message_id=message.id)
         case "/fire":
-            message.reply_photo(photo = "media/fire.jpg", reply_to_message_id=message.id)
+            await message.reply_photo(photo = "media/fire.jpg", reply_to_message_id=message.id)
         case "/water":
-            message.reply_photo(photo = "media/water.jpg", reply_to_message_id=message.id)
+            await message.reply_photo(photo = "media/water.jpg", reply_to_message_id=message.id)
         
         case _:
-            message.reply(text = "Command not recognized")
+            await message.reply(text = "Command not recognized")
 
 
 app.start()
