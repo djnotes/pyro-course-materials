@@ -1,21 +1,5 @@
-from pyrogram import Client, idle
+from pyrogram import Client
 from pyrogram.types import Message
-from pyrogram.handlers import MessageHandler
-
-import os
-
-api_id = os.environ.get('api_id')
-api_hash = os.environ.get('api_hash')
-bot_token = os.environ.get('bot_token')
-
-
-app = Client(
-    name = "session/myapp",
-    api_id = api_id,
-    api_hash = api_hash,
-    bot_token=bot_token
-)
-
 
 async def handle_updates(client: Client, message: Message):
     match message.text:
@@ -30,13 +14,3 @@ async def handle_updates(client: Client, message: Message):
         
         case _:
             await message.reply(text = "Command not recognized")
-
-
-app.start()
-
-app.send_message(chat_id = "dev2000xx", text = f"{app.name} started")
-
-app.add_handler(MessageHandler(handle_updates))
-
-idle()
-app.stop()
