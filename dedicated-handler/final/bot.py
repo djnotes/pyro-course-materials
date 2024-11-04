@@ -1,7 +1,8 @@
 from pyrogram import Client, idle
 from pyrogram.types import Message
-from pyrogram.handlers import MessageHandler
+from pyrogram.handlers import MessageHandler 
 from myhandler import handle_updates
+
 
 import os
 
@@ -19,18 +20,14 @@ app = Client(
 
 
 # @app.on_message()
-
-app.start()
-app.send_message(chat_id = "dev2000xx", text = f"{app.name} started")
-app.stop()
-
 app.add_handler(MessageHandler(handle_updates))
 
-app.run()
-
-# app.start()
+app.start()
  
+info = app.get_me()
 
-# idle()
+app.send_message(chat_id = "dev2000xx", text = f"{info.first_name} started")
 
-# app.stop()
+idle()
+
+app.stop()
