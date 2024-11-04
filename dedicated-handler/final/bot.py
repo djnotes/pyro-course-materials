@@ -20,18 +20,16 @@ app = Client(
 
 # @app.on_message()
 
-
 app.start()
-
-info = app.get_me()
- 
-app.send_message(chat_id = "dev2000xx", text = f"{info.first_name} started")
-
+app.send_message(chat_id = "dev2000xx", text = f"{app.name} started")
 app.stop()
 
 app.add_handler(MessageHandler(handle_updates))
 
 app.run()
+
+# app.start()
+ 
 
 # idle()
 
