@@ -1,0 +1,6 @@
+start/session/myapp.session
+start/env.ini
+final/env.ini
+final/session/myapp.session
+start/session/bot.session
+final/session/bot.session

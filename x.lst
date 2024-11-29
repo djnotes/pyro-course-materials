@@ -9,3 +9,9 @@ updates-simple/final/bot.session
 updates-simple/starter/bot.session
 updates-simple/final/session/myapp.session
 updates-simple/starter/session/myapp.session
+dedicated-handler/start/session/myapp.session
+dedicated-handler/start/env.ini
+dedicated-handler/final/session/myapp.session
+dedicated-handler/final/env.ini
+dedicated-handler/start/bot.session
+dedicated-handler/final/bot.session
