@@ -27,11 +27,23 @@ async def handle_updates(client: Client, message: Message):
             session = get_db()
             noteText = select_notes(session, message.from_user.id)
             await message.reply(noteText)
-            
+
         case "/update":
-            pass
+            session = get_db()
+            stmt = select(Note).where(Note.title == parts[1])
+            note = session.scalar(stmt)
+            note.text = parts[2]
+            session.commit()
+            await message.reply(select_notes(session, message.from_user.id))
+
         case "/delete":
-            pass
+            session = get_db()
+            stmt = select(Note).where(Note.title == parts[1])
+            note = session.scalar(stmt)
+            session.delete(note)
+            session.commit()
+            await message.reply(select_notes(session, message.from_user.id))
+            
         case _:
             await message.reply(text = "Command not recognized")
 
