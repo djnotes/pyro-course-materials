@@ -15,3 +15,5 @@ dedicated-handler/final/session/myapp.session
 dedicated-handler/final/env.ini
 dedicated-handler/start/bot.session
 dedicated-handler/final/bot.session
+db-support/final/session/myapp.session
+db-support/final/env.ini
