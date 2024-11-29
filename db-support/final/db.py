@@ -9,7 +9,9 @@ class Note(Base):
     __tablename__ = "note"
     id: Mapped[int] = mapped_column(primary_key = True)
     author_id: Mapped[float] = mapped_column(Double())
+    title: Mapped[str] = mapped_column(String(100))
     text: Mapped[str] = mapped_column(String(1024))
+    
 
 username = os.environ.get('MARIADB_USER')
 password = os.environ.get('MARIADB_PASSWORD')
