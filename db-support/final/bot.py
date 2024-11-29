@@ -1,6 +1,7 @@
 from pyrogram import Client, idle
 from pyrogram.types import Message
 from pyrogram.handlers import MessageHandler 
+from db import get_db
 from myhandler import handle_updates
 
 
@@ -23,6 +24,7 @@ app = Client(
 app.add_handler(MessageHandler(handle_updates))
 
 app.start()
+
  
 info = app.get_me()
 
