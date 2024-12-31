@@ -17,3 +17,15 @@ dedicated-handler/start/bot.session
 dedicated-handler/final/bot.session
 db-support/final/session/myapp.session
 db-support/final/env.ini
+state-management/db-state/start/env.ini
+state-management/db-state/final/env.ini
+state-management/db-state/final/session/myapp.session
+state-management/db-state/start/session/myapp.session
+state-management/redis-state/start/session/myapp.session
+state-management/redis-state/final/session/myapp.session
+state-management/redis-state/final/env.ini
+state-management/redis-state/start/env.ini
+state-management/in-app/start/env.ini
+state-management/in-app/final/env.ini
+state-management/in-app/start/session/myapp.session
+state-management/in-app/final/session/myapp.session
