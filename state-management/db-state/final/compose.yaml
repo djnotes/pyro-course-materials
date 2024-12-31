@@ -1,0 +1,19 @@
+services:
+  bot:
+    build: 
+      context: .
+      dockerfile: Containerfile
+    
+    volumes:
+      - .:/app:Z
+    env_file:
+      - env.ini
+    restart: always
+    tty: true
+  redis:
+    image: docker.io/library/redis:7.4
+  
+  db:
+    image: docker.io/library/mariadb:10.5
+    env_file: env.ini
+  
