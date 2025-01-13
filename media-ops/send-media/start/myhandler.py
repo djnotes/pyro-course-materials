@@ -36,7 +36,7 @@ async def handle_updates(client: Client, message: Message):
         
         # Handle Media
         case Buttons.media:
-            await message.reply(text = "Media Menu", reply_markup= Keyboards.Media)
+            await message.reply(text = "Media Menu", reply_markup= Keyboards.MediaMenu)
         case Buttons.send_photo:
             pass
         case Buttons.send_sticker:

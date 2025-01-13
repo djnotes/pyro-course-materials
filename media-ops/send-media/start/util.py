@@ -58,9 +58,9 @@ class Keyboards:
 
     MediaMenu = ReplyKeyboardMarkup(
         [
-            [Buttons.send_photo, Buttons.send_sticker, Buttons.send_video],
+            [Buttons.send_photo, Buttons.send_sticker],
             [Buttons.send_audio, Buttons.send_voice],
-            [Buttons.send_animation],
+            [Buttons.send_video, Buttons.send_animation],
             [Buttons.send_document]
         ]
     )
