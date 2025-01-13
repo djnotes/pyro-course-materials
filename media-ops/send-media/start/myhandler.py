@@ -34,7 +34,12 @@ async def handle_updates(client: Client, message: Message):
             )
             await message.reply(text = "My Links", reply_markup=inline_kb)
         
+        # Handle Media
+        case Buttons.media:
+            await message.reply(text = "Media Menu", reply_markup= Keyboards.Media)
         case Buttons.send_photo:
+            pass
+        case Buttons.send_sticker:
             pass
         case Buttons.send_video:
             pass
@@ -43,10 +48,6 @@ async def handle_updates(client: Client, message: Message):
         case Buttons.send_voice:
             pass
         case Buttons.send_document:
-            pass
-        case Buttons.send_contact:
-            pass
-        case Buttons.send_poll:
             pass
         case Buttons.send_animation:
             pass

@@ -18,14 +18,13 @@ class Buttons:
 
     #Media Buttons
     send_photo = "Send Photo 📷"
+    send_sticker = "Send Sticker 🙂"
     send_video = "Send Video 📹"
     send_audio = "Send Audio 🎧"
     send_voice = "Send Voice 🎤"
-    send_document = "Send Document "
-    send_poll = "Send Poll 🗳️"
-    send_contact = "Send Contact 👤"
+    send_document = "Send Document 📓"
     send_animation = "Send Animation 🏃"
-    # Slicon Valley 37.3875° N, 122.0575° W
+    media = "Media ⌨️"
     
     
 class Values:
@@ -37,7 +36,8 @@ class Keyboards:
         [
             [KeyboardButton(Buttons.settings)],
             [KeyboardButton(Buttons.admins), KeyboardButton(Buttons.channels)],
-            [KeyboardButton(Buttons.make_inline_links),KeyboardButton(Buttons.remove_keyboard)]
+            [KeyboardButton(Buttons.make_inline_links),KeyboardButton(Buttons.remove_keyboard)],
+            [KeyboardButton(Buttons.media)] # Media Keyboard
         ]
     )
 
@@ -53,6 +53,15 @@ class Keyboards:
             [Buttons.add_admin, Buttons.remove_admin],
             [Buttons.view_admins],
             [KeyboardButton(Buttons.home)]
+        ]
+    )
+
+    MediaMenu = ReplyKeyboardMarkup(
+        [
+            [Buttons.send_photo, Buttons.send_sticker, Buttons.send_video],
+            [Buttons.send_audio, Buttons.send_voice],
+            [Buttons.send_animation],
+            [Buttons.send_document]
         ]
     )
     
