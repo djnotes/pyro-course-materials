@@ -59,7 +59,8 @@ async def handle_updates(client: Client, message: Message):
             case Buttons.send_sticker:
                 await client.send_sticker(uid, "media/piano.webp")
             case Buttons.send_video:
-                await client.send_video(uid, "media/piano.mp4", "Piano video")
+                msg = await message.reply("Sending started")
+                await client.send_video(uid, "media/piano.mp4", "Piano video", progress = send_progress, progress_args= (msg,))
             case Buttons.send_audio:
                 await client.send_audio(uid, "media/piano.mp3", "A Nice Song")
             case Buttons.send_voice:
@@ -81,6 +82,20 @@ async def handle_callback_query(client: Client, query: CallbackQuery):
             await client.send_message(chat_id = query.from_user.id, text = "You selected No")
         case Values.CONFIRM_DOWNLOAD:
             media_msg = cache.get_session_item(uid, Keys.MEDIA_MESSAGE)
-            await query.message.reply("Download started")
-            await client.download_media(media_msg)
+            msg = await query.message.reply("Download started")
+            await client.download_media(media_msg, progress = download_progress, progress_args= (msg, ))
             await client.send_message(chat_id = uid, text = "Download complete")
+
+
+async def send_progress(current, total, *args):
+    msg = args[0]
+    await msg.edit("Sending {0} of {1} KB".format(current / 1_000, total / 1_000))
+    if current >= total:
+        await msg.edit("Transfer complete")
+
+
+async def download_progress(current, total, *args):
+    msg = args[0]
+    await msg.edit("Downloading {0} of {1} KB".format(current / 1_000, total / 1_000))
+    if current >= total:
+        await msg.edit("Download to server complete")
