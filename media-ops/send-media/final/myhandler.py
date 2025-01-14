@@ -10,6 +10,7 @@ from pyrogram.types import CallbackQuery
 
 
 async def handle_updates(client: Client, message: Message):
+    uid = message.from_user.id
     text = message.text
     match text:
         case "/start" | Buttons.home:
@@ -38,19 +39,20 @@ async def handle_updates(client: Client, message: Message):
         case Buttons.media:
             await message.reply(text = "Media Menu", reply_markup= Keyboards.MediaMenu)
         case Buttons.send_photo:
-            pass
+            await client.send_photo(uid, "media/piano.jpg", "My Piano")
+            await message.reply_photo("media/piano.jpg", "My Piano")
         case Buttons.send_sticker:
-            pass
+            await client.send_sticker(uid, "media/piano.webp")
         case Buttons.send_video:
-            pass
+            await client.send_video(uid, "media/piano.mp4", "Piano video")
         case Buttons.send_audio:
-            pass
+            await client.send_audio(uid, "media/piano.mp3", "A Nice Song")
         case Buttons.send_voice:
-            pass
+            await client.send_voice(uid, "media/piano.ogg", "A Nice Voice")
         case Buttons.send_document:
-            pass
+            await client.send_document(chat_id = uid, document = "media/piano.jpg", caption = "A Photo Sent as File")
         case Buttons.send_animation:
-            pass
+            await client.send_animation(uid, "media/blink.tgs", "A Nice Animation")
         case _:
             await message.reply("Unexpected input")
 
