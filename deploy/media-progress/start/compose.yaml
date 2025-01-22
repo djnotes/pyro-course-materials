@@ -1,0 +1,14 @@
+services:
+  bot:
+    build: 
+      context: .
+      dockerfile: Containerfile
+    
+    volumes:
+      - .:/app:Z
+    env_file:
+      - env.ini
+    restart: always
+    tty: true
+  redis:
+    image: docker.io/library/redis:7.4

@@ -47,3 +47,16 @@ keyboards/replymarkupkeyboard/start/session/myapp.session
 keyboards/replymarkupkeyboard/final/session/myapp.session
 keyboards/inline-kb-links/start/session/myapp.session
 keyboards/inline-kb-links/final/session/myapp.session
+media-ops/send-media/start/session/myapp.session
+media-ops/send-media/start/final/myapp.session
+media-ops/send-media/final/session/myapp.session
+media-ops/send-media/start/env.ini
+media-ops/send-media/final/env.ini
+media-ops/download-media/start/env.ini
+media-ops/download-media/final/env.ini
+media-ops/download-media/start/session/myapp.session
+media-ops/download-media/final/session/myapp.session
+media-ops/media-progress/start/env.ini
+media-ops/media-progress/final/env.ini
+media-ops/media-progress/start/session/myapp.session
+media-ops/media-progress/final/session/myapp.session
