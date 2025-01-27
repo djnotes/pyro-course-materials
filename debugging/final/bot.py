@@ -10,7 +10,7 @@ from myhandler import handle_callback_query
 
 import os
 
-debugpy.listen(("localhost", 5678))
+debugpy.listen(("bot", 5678))
 
 api_id = os.environ.get('api_id')
 api_hash = os.environ.get('api_hash')
