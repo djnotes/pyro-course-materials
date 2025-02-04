@@ -10,6 +10,8 @@ from myhandler import handle_callback_query
 
 import os
 
+from userbot_handler import handle_user_updates
+
 # debugpy.listen(("bot", 5678))
 
 api_id = os.environ.get('api_id')
@@ -30,9 +32,6 @@ userbot = Client(
     api_hash = api_hash
 )
 
-clients = [
-    userbot
-]
 
 
 
@@ -43,13 +42,13 @@ app.send_message(chat_id = "dev2000xx", text = f"{info.first_name} started")
 app.add_handler(MessageHandler(handle_updates))
 app.add_handler(CallbackQueryHandler(handle_callback_query))  
 
-for client in clients:
-    print("Starting {0}".format(client.name))
-    client.start()
-    info = client.get_me()
-    app.send_message(chat_id = "dev2000xx", text = f"{info.first_name} started")
+print("Starting {0}".format(userbot.name))
+userbot.start()
+info = userbot.get_me()
+app.send_message(chat_id = "dev2000xx", text = f"{info.first_name} started")
               
-    
+
+userbot.add_handler(MessageHandler(handle_user_updates))    
 
 # @app.on_message()
 
