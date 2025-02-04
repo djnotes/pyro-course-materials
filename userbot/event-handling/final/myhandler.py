@@ -2,6 +2,7 @@ from pyrogram import Client
 from pyrogram.types import Message, ReplyKeyboardRemove
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from comboclient import ComboClient
 from db import Db
 from util import Buttons
 from util import Keyboards
@@ -14,7 +15,7 @@ from pyrogram.types import CallbackQuery
 # cache = Cache()
 db = Db()
 
-async def handle_updates(client: Client, message: Message):
+async def handle_updates(client: ComboClient, message: Message):
     uid = message.from_user.id
     text = message.text
     media = message.media
@@ -32,6 +33,7 @@ async def handle_updates(client: Client, message: Message):
         match text:
             case "/start" | Buttons.home:
                 await message.reply("Main Menu", reply_markup=Keyboards.MainMenu)
+                await client.userbot.send_message(chat_id = uid, text = "I received your start message")
             case Buttons.settings:
                 await message.reply("Setting Menu", reply_markup=Keyboards.SettingsMenu)
             case Buttons.admins:

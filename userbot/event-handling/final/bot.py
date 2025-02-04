@@ -4,6 +4,7 @@ from pyrogram.handlers import MessageHandler
 from myhandler import handle_updates
 from pyrogram.handlers.callback_query_handler import CallbackQueryHandler
 import debugpy
+from comboclient import ComboClient
 
 from myhandler import handle_callback_query
 
@@ -18,19 +19,22 @@ api_id = os.environ.get('api_id')
 api_hash = os.environ.get('api_hash')
 bot_token = os.environ.get('bot_token')
 
-
-app = Client(
-    name = "session/myapp",
-    api_id = api_id,
-    api_hash = api_hash,
-    bot_token=bot_token
-)
-
 userbot = Client(
     name = "session/userbot1",
     api_id = api_id,
     api_hash = api_hash
 )
+
+
+
+app = ComboClient(
+    name = "session/myapp",
+    api_id = api_id,
+    api_hash = api_hash,
+    bot_token=bot_token,
+    userbot = userbot
+)
+
 
 
 
