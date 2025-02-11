@@ -1,3 +1,4 @@
+from logger import AppLogger
 from pyrogram import Client 
 from pyrogram.types import Message, ReplyKeyboardRemove
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -11,7 +12,8 @@ from util import Keys
 
 import logging
 
-logger = logging.getLogger()
+# logger = logging.getLogger()
+logger = AppLogger(__name__)
 
 from pyrogram.types import CallbackQuery
 

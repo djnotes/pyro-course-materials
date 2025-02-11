@@ -1,3 +1,4 @@
+from logger import AppLogger
 from pyrogram import Client, idle
 from pyrogram.types import Message
 from pyrogram.handlers import MessageHandler 
@@ -5,9 +6,11 @@ from myhandler import handle_updates
 from pyrogram.handlers.callback_query_handler import CallbackQueryHandler
 import logging
 
-logging.basicConfig(filename = "log/app.log", format = "%(filename)s - %(lineno)s: %(message)s", level = logging.DEBUG, force = True)
+# logging.basicConfig(filename = "log/app.log", format = "%(filename)s - %(lineno)s: %(message)s", level = logging.DEBUG, force = True)
 
-logger = logging.getLogger()
+# logger = logging.getLogger()
+
+logger = AppLogger(__name__)
 
 from myhandler import handle_callback_query
 
