@@ -9,6 +9,10 @@ from util import Values
 # from cache import Cache
 from util import Keys
 
+import logging
+
+logger = logging.getLogger()
+
 from pyrogram.types import CallbackQuery
 
 # cache = Cache()
@@ -18,6 +22,7 @@ async def handle_updates(client: Client, message: Message):
     uid = message.from_user.id
     text = message.text
     media = message.media
+    logger.info(f"Received a message: {message}")
     if media:
         await message.reply("You sent me a file. Do you want me to download it to server?", reply_markup=InlineKeyboardMarkup(
             inline_keyboard=[

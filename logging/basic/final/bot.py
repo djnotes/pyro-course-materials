@@ -3,6 +3,11 @@ from pyrogram.types import Message
 from pyrogram.handlers import MessageHandler 
 from myhandler import handle_updates
 from pyrogram.handlers.callback_query_handler import CallbackQueryHandler
+import logging
+
+logging.basicConfig(filename = "log/app.log", format = "%(filename)s - %(lineno)s: %(message)s", level = logging.DEBUG, force = True)
+
+logger = logging.getLogger()
 
 from myhandler import handle_callback_query
 
@@ -25,12 +30,17 @@ app = Client(
 app.add_handler(MessageHandler(handle_updates))
 app.add_handler(CallbackQueryHandler(handle_callback_query))
 
+logger.info(f"Starting {app.name}")
 app.start()
+ 
  
 info = app.get_me()
 
+logger.info(f"Sending bootstrap message to {info.first_name}")
 app.send_message(chat_id = "dev2000xx", text = f"{info.first_name} started")
 
+logger.info("Keeping the bot idle")
 idle()
 
+logger.info("Stopping the app")
 app.stop()

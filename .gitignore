@@ -3,3 +3,4 @@
 *.session
 *.pyc
 *.session-journal
+*.log
