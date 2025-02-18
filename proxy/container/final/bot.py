@@ -20,12 +20,23 @@ api_id = os.environ.get('api_id')
 api_hash = os.environ.get('api_hash')
 bot_token = os.environ.get('bot_token')
 
+proxy_status = os.environ.get('PROXY_STATUS')
+
+if proxy_status == 'ON':
+   my_proxy = {
+      'scheme': os.environ.get('PROXY_SCHEME'),
+      'hostname': os.environ.get('PROXY_HOSTNAME'),
+      'port': int(os.environ.get('PROXY_PORT')),
+      'username': os.environ.get('PROXY_USERNAME'),
+      'password': os.environ.get('PROXY_PASSWORD')
+   }
 
 app = Client(
     name = "session/myapp",
     api_id = api_id,
     api_hash = api_hash,
-    bot_token=bot_token
+    bot_token=bot_token,
+    proxy = my_proxy if proxy_status == 'ON' else None 
 )
 
 
