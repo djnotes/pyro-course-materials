@@ -5,6 +5,7 @@ from pyrogram.handlers import MessageHandler
 from myhandler import handle_updates
 from pyrogram.handlers.callback_query_handler import CallbackQueryHandler
 import logging
+import configparser
 
 # logging.basicConfig(filename = "log/app.log", format = "%(filename)s - %(lineno)s: %(message)s", level = logging.DEBUG, force = True)
 
@@ -30,6 +31,18 @@ if proxy_status == 'ON':
       'username': os.environ.get('PROXY_USERNAME'),
       'password': os.environ.get('PROXY_PASSWORD')
    }
+else:
+   config_parser = configparser.ConfigParser()
+   config_parser.read('env.ini')
+   proxy_status = config_parser['proxy']['PROXY_STATUS']
+   my_proxy = {
+      'scheme': config_parser['proxy']['PROXY_SCHEME'],
+      'hostname': config_parser['proxy']['PROXY_HOSTNAME'],
+      'port': int(config_parser['proxy']['PROXY_PORT']),
+      'username': config_parser['proxy']['PROXY_USERNAME'],
+      'password': config_parser['proxy']['PROXY_PASSWORD']
+   }
+   
 
 app = Client(
     name = "session/myapp",
