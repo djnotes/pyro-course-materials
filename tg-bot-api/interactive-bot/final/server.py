@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-TG_API = "https://api.telegram.org/bot1594116514:AAGMbcOiPgC1dll5qxL6_RWYUDnFU2wG7aw/"
+TG_API = "https://api.telegram.org/bot<Replace with VALID TELEGRAM BOT TOKEN>"
 
 
 @app.route("/", methods = ["POST"])
