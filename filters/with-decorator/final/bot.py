@@ -2,7 +2,7 @@ from pyrogram import Client, idle
 from pyrogram.types import Message
 from pyrogram import filters
 from pyrogram.handlers import MessageHandler
-from handlers import handle_audio, handle_photo
+from handlers import handle_audio, handle_visual, handle_audio_in_group
 
 import os
 
@@ -19,10 +19,11 @@ app = Client(
 )
 
 
-app.add_handler(MessageHandler(handle_audio, filters.audio))
+app.add_handler(MessageHandler(handle_audio, filters.audio & filters.caption))
 
-app.add_handler(MessageHandler(handle_photo, filters.photo))
+app.add_handler(MessageHandler(handle_visual, filters.photo | filters.video | filters.animation))
 
+app.add_handler(MessageHandler(handle_audio_in_group, filters.audio & ~filters.private))
 
 
 app.start()
