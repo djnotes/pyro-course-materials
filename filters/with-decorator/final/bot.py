@@ -1,6 +1,8 @@
 from pyrogram import Client, idle
 from pyrogram.types import Message
 from pyrogram import filters
+from pyrogram.handlers import MessageHandler
+from handlers import handle_audio, handle_photo
 
 import os
 
@@ -17,13 +19,10 @@ app = Client(
 )
 
 
-@app.on_message(filters.audio)
-async def handle_audio(client, message):
-    await message.reply("You sent me an audio file")
+app.add_handler(MessageHandler(handle_audio, filters.audio))
 
-@app.on_message(filters.photo)
-async def handle_photo(client, message):
-    await message.reply("You sent me a photo")
+app.add_handler(MessageHandler(handle_photo, filters.photo))
+
 
 
 app.start()
