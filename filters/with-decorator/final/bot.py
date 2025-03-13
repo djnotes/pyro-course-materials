@@ -25,6 +25,18 @@ app.add_handler(MessageHandler(handle_visual, filters.photo | filters.video | fi
 
 app.add_handler(MessageHandler(handle_audio_in_group, filters.audio & ~filters.private))
 
+@app.on_message(filters.command("start"))
+async def handle_start_cmd(client, message):
+    await message.reply("The bot started")
+
+@app.on_message(filters.command("stats"))
+async def handle_stats_cmd(client, message):
+    await message.reply("The bot stats are:\nTotal Users: 110\nNew Users: 50")
+
+@app.on_message(filters.regex(r"\+?\d{11}"))
+async def handle_phone(client, message):
+    await message.reply("You entered a valid phone number")
+
 
 app.start()
 info = app.get_me()
