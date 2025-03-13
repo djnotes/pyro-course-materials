@@ -25,18 +25,6 @@ async def handle_audio(client, message):
 async def handle_photo(client, message):
     await message.reply("You sent me a photo")
 
-@app.on_message(filters.command("start"))
-async def handle_start_cmd(client, message):
-    await message.reply("The bot started")
-
-@app.on_message(filters.command("stats"))
-async def handle_stats_cmd(client, message):
-    await message.reply("The bot stats are:\nTotal Users: 110\nNew Users: 50")
-
-@app.on_message(filters.regex(r"\+?\d{11}"))
-async def handle_phone(client, message):
-    await message.reply("You entered a valid phone number")
-
 
 app.start()
 info = app.get_me()
