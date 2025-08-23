@@ -1,7 +1,10 @@
 import os
 import configparser
+import util
 
 conf = configparser.ConfigParser()
+
+
 
 class AppConfig:
     def __init__(self):
@@ -19,7 +22,7 @@ class AppConfig:
             self.rabbitmq_host = os.environ.get('RABBITMQ_DEFAULT_HOST')
             self.rabbitmq_vhost = os.environ.get('RABBITMQ_DEFAULT_VHOST')
         else:
-            conf.read('env.ini')
+            conf.read(util.get_abs_path() + '/env.ini')
             self.api_id = conf['bot']['api_id']
             self.api_hash = conf['bot']['api_hash']
             self.bot_token = conf['bot']['bot_token']

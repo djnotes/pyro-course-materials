@@ -1,0 +1,26 @@
+FROM docker.io/library/python:3.12-slim
+
+# install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# create a non-root user early so we can COPY with ownership
+RUN adduser --disabled-password --gecos '' appuser
+
+
+# copy application files and set ownership to the non-root user
+COPY --chown=appuser:appuser . /app
+
+RUN chown -R appuser:appuser /app
+
+# run as the unprivileged user and add venv to PATH
+USER appuser
+WORKDIR /app
+
+RUN python3 -m pip install --upgrade pip setuptools wheel \
+    && pip3 install --no-cache-dir -r requirements.txt
+
+  
+CMD ["python", "bot.py"]
+

@@ -5,11 +5,14 @@ from myhandler import handle_updates
 from pyrogram.handlers.callback_query_handler import CallbackQueryHandler
 
 from myhandler import handle_callback_query
+import util
 
 from config import AppConfig
 
 # load configuration and credentials via AppConfig
 cfg = AppConfig()
+
+
 
 # api_id is expected to be an integer for pyrogram Client; convert when present
 api_id = int(cfg.api_id) if cfg.api_id else None
@@ -23,7 +26,7 @@ proxy = {
 } if cfg.proxy_on else None
 
 app = Client(
-    name = "session/myapp",
+    name = util.get_abs_path() + "/session/myapp",
     api_id = api_id,
     api_hash = api_hash,
     bot_token=bot_token,

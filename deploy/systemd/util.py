@@ -1,4 +1,5 @@
 from pyrogram.types import ReplyKeyboardMarkup, KeyboardButton
+import os
 
 class Buttons:
     home = "Home 🏠"
@@ -68,8 +69,16 @@ class Keyboards:
             [Buttons.send_document],
         ]
     )
-    
-    
 
 
-    
+ABSPATH = None  # better default
+
+
+def get_abs_path() -> str:
+    """Gets the absolute path to the project"""
+    global ABSPATH
+    if ABSPATH:
+        return ABSPATH
+    else:
+        ABSPATH = os.path.dirname(os.path.abspath(__file__))
+        return ABSPATH

@@ -5,6 +5,7 @@ from sqlalchemy import String
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy import select
+import util
 
 import os
 
@@ -19,7 +20,7 @@ class UserSession(Base):
     value: Mapped[str] = mapped_column(String(1024))
 
 
-engine = create_engine(f"sqlite:///state.db")
+engine = create_engine(f"sqlite:///{util.get_abs_path()}/appdata.db")
 
 Base.metadata.create_all(engine)
 

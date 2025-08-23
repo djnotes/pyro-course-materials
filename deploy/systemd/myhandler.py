@@ -55,7 +55,6 @@ async def handle_updates(client: Client, message: Message):
             case Buttons.media:
                 await message.reply(text = "Media Menu", reply_markup= Keyboards.MediaMenu)
             case Buttons.send_photo:
-                await client.send_photo(uid, "media/piano.jpg", "My Piano")
                 await message.reply_photo("media/piano.jpg", "My Piano")
             case Buttons.send_sticker:
                 await client.send_sticker(uid, "media/piano.webp")
