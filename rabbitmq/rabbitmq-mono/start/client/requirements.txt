@@ -1,0 +1,6 @@
+pyrogram
+tgcrypto
+redis
+dill
+ffmpeg-python
+pika

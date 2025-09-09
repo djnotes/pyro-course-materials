@@ -1,0 +1,12 @@
+client/__pycache__/
+worker/__pycache__/
+client/session/
+worker/session/
+client/downloads
+client/media
+worker/media
+worker/downloads
+env.ini
+session/
+__pycache__/
+cache.db

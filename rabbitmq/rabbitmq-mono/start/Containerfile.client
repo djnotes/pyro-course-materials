@@ -1,0 +1,23 @@
+FROM focker.io/library/python:3.12
+
+RUN apt update \
+&& apt-get install -y python3-pip python3-pika python3-venv ffmpeg
+
+RUN adduser --disabled-password container
+
+
+USER container
+
+ENV VIRTUAL_ENV=/home/container/venv
+RUN python3 -m venv $VIRTUAL_ENV
+#Put the env-level python in system path
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+COPY --chown=container:container . /app
+
+
+WORKDIR /app
+
+RUN pip install -r requirements.txt
+
+# CMD [ "python", "bot.py" ]
