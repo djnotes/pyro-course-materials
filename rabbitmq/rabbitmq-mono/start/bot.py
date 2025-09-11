@@ -6,10 +6,13 @@ from myhandler import handle_updates
 from pyrogram.handlers.callback_query_handler import CallbackQueryHandler
 
 from myhandler import handle_callback_query
+from db import Db as Cache
 
 import os
 
 appConfig = AppConfig()
+
+cache = Cache()
 
 # api_id = os.environ.get('api_id')
 # api_hash = os.environ.get('api_hash')

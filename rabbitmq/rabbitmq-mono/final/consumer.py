@@ -40,7 +40,7 @@ connection = pika.BlockingConnection(
         virtual_host=appConf.rabbitmq_vhost,
         # credentials=PlainCredentials(appConf.rabbitmq_user, appConf.rabbitmq_password)
         credentials=PlainCredentials(appConf.rabbitmq_user, appConf.rabbitmq_password),
-        heartbeat=60
+        heartbeat=30
     )
 )
 
@@ -53,7 +53,7 @@ channel.queue_declare(Keys.TASKS_QUEUE, durable=True)
 
 def cb(ch, method, props, body):
     task = pickle.loads(body)
-    print('Received task {0}. chat_id: {1}, user_id: {2}, msg_id: {3}'.format(task.task_id, task.chat_id, task.user_id, task.msg_id))
+    print('Received task {0}. chat_id: {1}, msg_id: {2}'.format(task.task_id, task.chat_id, task.msg_id))
     match(task.task_type):
         case TaskType.EXTRACT_AUDIO:
             try:
@@ -71,7 +71,7 @@ def cb(ch, method, props, body):
                 if status[1]:
                     message.reply("Problem with extracting audio file")                
                 else:
-                    bot.send_audio(chat_id = task.user_id, audio = out_filename, caption = "Here is your extracted audio")
+                    bot.send_audio(chat_id = task.chat_id, audio = out_filename, caption = "Here is your extracted audio")
 
             except Exception as e:
                 print("Error occurred during media conversion: {0}\n".format(e))

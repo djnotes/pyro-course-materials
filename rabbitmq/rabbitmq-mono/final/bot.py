@@ -6,6 +6,7 @@ from myhandler import handle_updates
 from pyrogram.handlers.callback_query_handler import CallbackQueryHandler
 
 from myhandler import handle_callback_query
+from db import Db as Cache
 
 import os
 
@@ -23,6 +24,9 @@ proxy_on = appConfig.proxy_on
 proxy_scheme = appConfig.proxy_scheme
 proxy_host = appConfig.proxy_host
 proxy_port = appConfig.proxy_port
+
+
+cache = Cache()
 
 if proxy_on:
 #     proxy_scheme=os.environ.get('PROXY_SCHEME')

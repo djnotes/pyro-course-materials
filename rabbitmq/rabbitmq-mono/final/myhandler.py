@@ -13,7 +13,6 @@ from util import Keys
 import ffmpeg
 from enum import Enum
 from pyrogram.types import CallbackQuery
-from workmanager import WorkManager
 import dill as pickle
 
 appConf = AppConfig()
@@ -27,7 +26,8 @@ connection = pika.BlockingConnection(
         port = 5672,
         virtual_host= appConf.rabbitmq_vhost,
         # credentials=PlainCredentials(appConf.rabbitmq_user, appConf.rabbitmq_password)
-        credentials=PlainCredentials(appConf.rabbitmq_user, appConf.rabbitmq_password)       
+        credentials=PlainCredentials(appConf.rabbitmq_user, appConf.rabbitmq_password),
+        heartbeat=30 # To keep connection alive and prevent Broken Pipe error
     )
 )
 
@@ -39,7 +39,6 @@ channel.queue_declare(Keys.TASKS_QUEUE, durable=True)
 cache = Cache()
 
 
-# wm = WorkManager(f"amqp://{appConf.rabbitmq_user}:{appConf.rabbitmq_password}@/", "ffmpeg_tasks")
 
 async def handle_updates(client: Client, message: Message):
     print('Received message: {0}'.format(message))
@@ -56,16 +55,8 @@ async def handle_updates(client: Client, message: Message):
                 return
             
 
-            # video = await client.download_media(message)
-            # index = video.rindex('.')
-            # outfile = video.strip(video[index:]) + '.mp3'
-            # status = ffmpeg.input(video).output(outfile).run()
-            # if status[1]:
-            #     await message.reply("Problem with extracting audio file")
-            #     return
-            
             # Create and enqueue audio extraction task
-            task = Task(str(uid), TaskType.EXTRACT_AUDIO, chat_id = client.me.id, user_id = uid, msg_id = message.id)
+            task = Task(str(uid), TaskType.EXTRACT_AUDIO, chat_id =  uid, msg_id = message.id)
             
             channel.basic_publish(
             exchange='',
