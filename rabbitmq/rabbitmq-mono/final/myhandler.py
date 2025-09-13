@@ -19,21 +19,9 @@ appConf = AppConfig()
 
 from task import *
 
-from pika.credentials import PlainCredentials
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(
-        host = appConf.rabbitmq_host,
-        port = 5672,
-        virtual_host= appConf.rabbitmq_vhost,
-        # credentials=PlainCredentials(appConf.rabbitmq_user, appConf.rabbitmq_password)
-        credentials=PlainCredentials(appConf.rabbitmq_user, appConf.rabbitmq_password),
-        heartbeat=30 # To keep connection alive and prevent Broken Pipe error
-    )
-)
+#TODO 1: pika imports
 
-channel = connection.channel()
-
-channel.queue_declare(Keys.TASKS_QUEUE, durable=True)
+# TODO 2: Create connection and channel
 
 
 cache = Cache()
@@ -54,18 +42,10 @@ async def handle_updates(client: Client, message: Message):
                 await message.reply("Wrong input. Expecting music video file")
                 return
             
-
             # Create and enqueue audio extraction task
-            task = Task(str(uid), TaskType.EXTRACT_AUDIO, chat_id =  uid, msg_id = message.id)
+            task = Task(str(uid), TaskType.EXTRACT_AUDIO, chat_id = client.me.id, user_id = uid, msg_id = message.id)
             
-            channel.basic_publish(
-            exchange='',
-                routing_key=Keys.TASKS_QUEUE,
-                body = pickle.dumps(task),
-                properties= pika.BasicProperties(
-                    delivery_mode=pika.DeliveryMode.Persistent
-                )
-            )
+            # TODO 3: Publish media task in the channel
 
             # await message.reply_audio(audio = outfile, caption = "Your extracted audio file")            
             await message.reply("Your audio extraction task is enqueued, and you will be notified when it is done.")

@@ -52,7 +52,6 @@ app.add_handler(MessageHandler(handle_updates))
 app.add_handler(CallbackQueryHandler(handle_callback_query))
 
 import time
-time.sleep(5)
 app.start()
  
 info = app.get_me()

@@ -12,6 +12,8 @@ import os
 
 appConfig = AppConfig()
 
+cache = Cache()
+
 # api_id = os.environ.get('api_id')
 # api_hash = os.environ.get('api_hash')
 # bot_token = os.environ.get('bot_token')
@@ -24,9 +26,6 @@ proxy_on = appConfig.proxy_on
 proxy_scheme = appConfig.proxy_scheme
 proxy_host = appConfig.proxy_host
 proxy_port = appConfig.proxy_port
-
-
-cache = Cache()
 
 if proxy_on:
 #     proxy_scheme=os.environ.get('PROXY_SCHEME')
@@ -53,7 +52,6 @@ app.add_handler(MessageHandler(handle_updates))
 app.add_handler(CallbackQueryHandler(handle_callback_query))
 
 import time
-time.sleep(5)
 app.start()
  
 info = app.get_me()
