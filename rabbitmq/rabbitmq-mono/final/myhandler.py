@@ -19,9 +19,18 @@ appConf = AppConfig()
 
 from task import *
 
-#TODO 1: pika imports
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(
+        host = appConf.rabbitmq_host,
+        port = 5672,
+        virtual_host= appConf.rabbitmq_vhost,
+        credentials= pika.PlainCredentials(appConf.rabbitmq_user, appConf.rabbitmq_password)
+    )
+)
 
-# TODO 2: Create connection and channel
+channel = connection.channel()
+
+channel.queue_declare(Keys.TASKS_QUEUE, durable=True)
 
 
 cache = Cache()
@@ -43,9 +52,15 @@ async def handle_updates(client: Client, message: Message):
                 return
             
             # Create and enqueue audio extraction task
-            task = Task(str(uid), TaskType.EXTRACT_AUDIO, chat_id = client.me.id, user_id = uid, msg_id = message.id)
+            task = Task(str(uid), TaskType.EXTRACT_AUDIO, chat_id = uid, msg_id = message.id)
             
-            # TODO 3: Publish media task in the channel
+            channel.basic_publish(
+                exchange= '',
+                routing_key= Keys.TASKS_QUEUE,
+                body = pickle.dumps(task),
+                properties=pika.BasicProperties(delivery_mode=pika.DeliveryMode.Persistent)
+            )
+            
 
             # await message.reply_audio(audio = outfile, caption = "Your extracted audio file")            
             await message.reply("Your audio extraction task is enqueued, and you will be notified when it is done.")

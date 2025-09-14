@@ -32,13 +32,47 @@ info = bot.get_me()
 
 bot.send_message(chat_id = appConf.bot_admin, text = f"{bot.name}:{info.first_name} started")
 
-# TODO 1: Create connection
 
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(
+        host = appConf.rabbitmq_host,
+        port = 5672,
+        virtual_host= appConf.rabbitmq_vhost,
+        credentials= pika.PlainCredentials(appConf.rabbitmq_user, appConf.rabbitmq_password)
+    )
+)
+
+channel = connection.channel()
+
+channel.queue_declare(Keys.TASKS_QUEUE, durable=True)
 
 print(f'app conf initialized')
 
-# TODO 2: Create channel
 
-# TODO 3: Create rabbitmq callback
+def cb(ch, method, props, body):
+    task = pickle.loads(body)
+    match task.task_type:
+        case TaskType.EXTRACT_AUDIO:
+            try:
+                message = bot.get_messages(task.chat_id, task.msg_id)
+                file = bot.download_media(message)
+                file_nospace = file.replace(' ', '-').strip()
+                shutil.move(file, file_nospace)
+                filename, _ = os.path.splitext(file_nospace)
+                outfilename = filename + ".mp3"
+                status = ffmpeg.input(file_nospace).output(outfilename).overwrite_output().run()
+                if status[1]: 
+                    bot.send_message(chat_id=task.chat_id, text = "Failed to extract media file")
+                else:
+                    bot.send_audio(chat_id = task.chat_id, audio = outfilename, caption = "Here is your extracted audio")    
+            
+            except Exception as e:
+                bot.send_message(chat_id = task.chat_id, text = "Failed to perform audio extraction")
+        case _:
+            pass
+    
 
-# TODO 4: start consuming
+channel.basic_qos(prefetch_count=1)
+channel.basic_consume(Keys.TASKS_QUEUE, on_message_callback=cb)
+
+channel.start_consuming()

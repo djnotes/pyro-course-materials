@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: Containerfile
     
-    volumes:
-      - .:/app:Z
+    # volumes:
+    #   - .:/app:Z
     env_file:
       - env.ini
     restart: always

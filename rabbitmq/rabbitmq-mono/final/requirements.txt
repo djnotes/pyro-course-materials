@@ -4,3 +4,4 @@ redis
 dill
 ffmpeg-python
 pika
+sqlalchemy
