@@ -71,8 +71,9 @@ def cb(ch, method, props, body):
         case _:
             pass
     
+    channel.basic_ack(delivery_tag=method.delivery_tag)
 
 channel.basic_qos(prefetch_count=1)
-channel.basic_consume(Keys.TASKS_QUEUE, on_message_callback=cb)
+channel.basic_consume(queue=Keys.TASKS_QUEUE, on_message_callback=cb)
 
 channel.start_consuming()
