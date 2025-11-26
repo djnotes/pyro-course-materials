@@ -2,7 +2,6 @@ from pyrogram.types import ReplyKeyboardMarkup, KeyboardButton
 import pika
 from pika.credentials import PlainCredentials
 from config import AppConfig
-from task import Task
 import dill as pickle
 from pika.exceptions import AMQPConnectionError, StreamLostError
 import logging

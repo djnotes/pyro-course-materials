@@ -1,5 +1,4 @@
 from pyrogram import Client, idle
-from pyrogram.types import Message
 from pyrogram.handlers import MessageHandler 
 from config import AppConfig
 from myhandler import handle_updates
@@ -9,10 +8,7 @@ from myhandler import handle_callback_query
 
 from cache import Cache
 
-from utils import Keys
 
-import os
-import time
 import debugpy
 
 from utils import get_my_logger
