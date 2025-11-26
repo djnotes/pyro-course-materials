@@ -155,6 +155,7 @@ def process_task(ch, method, props, body):
                 try:
                     message = bot.get_messages(task.user_id, task.msg_id)
                     filepath = bot.download_media(message)
+                    # Remove spaces from file name
                     filepath_nospaces = filepath.replace(" ", "-").strip()
                     shutil.move(filepath, filepath_nospaces)
                     _out_filename, _ = os.path.splitext(filepath_nospaces)
