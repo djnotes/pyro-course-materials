@@ -1,0 +1,42 @@
+FROM docker.io/library/python:3.12
+
+
+
+RUN apt update \
+&& apt-get install -y python3-pip python3-pika python3-venv ffmpeg iputils-ping 
+
+
+RUN apt install libcap2-bin --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+
+    
+ENV UID=1000
+ENV GID=1000
+
+# RUN groupadd -g ${GID} appuser  \
+#     && useradd -m -u ${UID} -g ${GID}  appuser
+
+RUN set -ex; \
+groupadd --gid $GID appuser; \
+useradd --uid $UID --gid $GID --create-home appuser
+
+USER appuser
+
+
+ENV VENV=/home/appuser/venv
+RUN python3 -m venv $VENV
+#Put the env-level python in system path
+ENV PATH="$VENV/bin:$PATH"
+
+
+
+COPY --chown=appuser:appuser . /home/appuser/app
+
+
+WORKDIR /home/appuser/app
+
+
+RUN pip install -r requirements.txt
+
+
+CMD [ "python", "worker.py" ]

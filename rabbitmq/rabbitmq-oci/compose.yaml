@@ -1,0 +1,52 @@
+services:
+  # Runs the bot
+  bot:
+    build: 
+      dockerfile: Containerfile.client
+    
+    volumes:
+      - .:/home/appuser/app:Z
+    env_file:
+      - env.ini
+    restart: always
+    tty: true
+
+    depends_on:
+      - worker
+    networks:
+      - rbnet
+    ports:
+    - 5679:5678
+  # Runs the rabbitmq worker
+  worker:
+    build:
+      dockerfile: Containerfile.worker
+    volumes:
+      - .:/home/appuser/app:Z
+    env_file:
+      - env.ini
+    restart: always
+
+    networks:
+      - rbnet
+
+  # This is the rabbitmq server  
+  server: 
+    image: docker.io/library/rabbitmq:4-management
+    env_file: env.ini
+    networks:
+      - rbnet
+    ports:
+    - 5672:5672
+    - 15672:15672      
+  # Redis service for caching
+  redis:
+    image: docker.io/library/redis:latest
+    networks:
+      - rbnet
+  
+
+
+networks:
+  rbnet:
+    driver: bridge

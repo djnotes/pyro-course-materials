@@ -1,0 +1,6 @@
+env.ini
+session/*
+__pycache__/
+downloads/bot.log
+downloads/
+*.log
