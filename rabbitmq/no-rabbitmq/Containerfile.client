@@ -1,0 +1,48 @@
+# Start from the desired base image
+FROM docker.io/library/python:3.12
+
+# ----------------------------------------------------
+# 1. Setup User and Group with Matching UID/GID
+# ----------------------------------------------------
+
+# Define the target UID/GID. Using ENV makes them available for later instructions.
+# Standard practice is to match the host user (often UID/GID 1000).
+ENV UID=1000
+ENV GID=1000
+
+# Create the user and group.
+# The `groupadd` is often optional as `useradd` creates a group of the same name.
+# Use --no-log-init to prevent a warning if the log file cannot be created.
+
+RUN set -ex; \
+    groupadd --gid $GID appuser; \
+    useradd --uid $UID --gid $GID --create-home appuser
+
+# RUN apt update \
+# && apt-get install -y python3-pip python3-pika python3-venv ffmpeg iputils-ping
+
+RUN apt-get update && apt-get install -y iputils-ping 
+
+# 2. Create the 'appuser' group and user with the specified UID/GID
+# We use -u and -g flags for useradd on many systems, or use adduser with specific flags.
+# On Debian/Ubuntu base images (like python:3.12), 'adduser' supports --uid and --gid.
+# However, for consistency and reliability, using useradd is often better for explicit ID setting.
+# Let's use `useradd` and `groupadd` which are widely supported.
+# We first create the group, then the user with that group and the specified ID.
+    
+USER appuser
+
+ENV VENV=/home/appuser/venv
+RUN python3 -m venv $VENV
+#Put the env-level python in system path
+ENV PATH="$VENV/bin:$PATH"
+
+COPY  --chown=appuser:appuser . /home/appuser/app
+
+WORKDIR /home/appuser/app
+
+
+RUN pip install -r requirements.txt
+
+
+CMD [ "python", "bot.py" ]
