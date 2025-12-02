@@ -1,6 +1,2 @@
-env.ini
-session/*
-__pycache__/
-downloads/bot.log
-downloads/
-*.log
+# Created by venv; see https://docs.python.org/3/library/venv.html
+*

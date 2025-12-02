@@ -1,4 +1,5 @@
 from pyrogram import Client 
+import shutil
 from pyrogram.types import Message, ReplyKeyboardRemove
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -80,13 +81,22 @@ async def handle_updates(client: Client, message: Message):
                 await message.reply("Your queue is busy. Please wait...")
                 return
             else:
-                logger.info("Sending task to rabbitmq")
+
+                logger.info("Received media message. Downloading file...")
+                filepath = await client.download_media(message, progress = download_progress, progress_args = (message,))
+                filepath_nospaces = filepath.replace(" ", "-").strip()
+                # Remove spaces from file name
+                shutil.move(filepath, filepath_nospaces)
+                _out_filename, _ = os.path.splitext(filepath_nospaces)
+                out_filename = _out_filename + ".mp3"                
+                
+
                 #TODO: Send task to background process without RabbitMQ
                 
                 tasks_count = tasks_count + 1
                 # Set appropriate timeout for the task given the number of tasks
                 cache.update_user_session(uid, Keys.BG_TASKS_RUNNING, tasks_count, tasks_count * Values.MAX_JOB_RUNNING_TIME)
-                await message.reply("Your audio is being extracted, and it will be sent to you once done.")
+                await message.reply("Download complete. Starting audio extraction... \nPlease wait...")
             
         case Values.SEND_PHOTO_ALBUM:
             if not media:

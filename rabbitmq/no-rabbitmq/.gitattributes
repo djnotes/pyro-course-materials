@@ -1,1 +1,4 @@
 * text=auto
+*.py	text
+.gitattributes	text
+.gitignore	text
