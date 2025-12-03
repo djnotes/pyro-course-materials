@@ -57,7 +57,6 @@ class Values:
     SEND_PHOTO_ALBUM = "_send_photo_album_"
     SEND_MUSIC = "_send_music_"
     MAX_JOB_RUNNING_TIME = 1 * 60 # (1 minue)
-    DEFAULT_CONN_TIMEOUT = 600 # Rabbitmq connection heartbeat
 
 
 def get_my_logger():
@@ -114,39 +113,5 @@ class Keyboards:
 
 def is_audio(filename:str) -> bool:
     return filename.endswith('.mp3') or filename.endswith('.ogg') or filename.endswith(".wav") or filename.endswith('.m4a')
-
-
-def send_task_to_rabbitmq(task):
-    connection = None
-    try:
-        connection = pika.BlockingConnection(
-            pika.ConnectionParameters(
-                host=appConf.rabbitmq_host,
-                port=5672,
-                virtual_host=appConf.rabbitmq_vhost,
-                credentials=PlainCredentials(appConf.rabbitmq_user, appConf.rabbitmq_password),
-                heartbeat=Values.DEFAULT_CONN_TIMEOUT
-            )
-        )
-
-        channel = connection.channel()
-        channel.queue_declare(Keys.TASKS_QUEUE, durable=True)
-        
-        channel.basic_publish(
-            exchange='',
-            routing_key=Keys.TASKS_QUEUE,
-            body=pickle.dumps(task)
-        )
-        logger.info("Task published successfully.")
-
-    except Exception as e:
-        logger.info(f"Failed to publish task: {e}")
-        raise e # Re-raise if you want the caller to handle it
-        
-    finally:
-        # CRITICAL: Close the connection no matter what happens
-        if connection and not connection.is_closed:
-            connection.close()
-
 
 

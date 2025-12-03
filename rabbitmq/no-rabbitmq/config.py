@@ -15,10 +15,7 @@ class AppConfig:
             self.proxy_scheme = os.environ.get('PROXY_SCHEME')
             self.proxy_host = os.environ.get('PROXY_HOST')
             self.proxy_port = os.environ.get('PROXY_PORT')
-            self.rabbitmq_user = os.environ.get('RABBITMQ_DEFAULT_USER')
-            self.rabbitmq_password = os.environ.get('RABBITMQ_DEFAULT_PASS')
-            self.rabbitmq_host = os.environ.get('RABBITMQ_DEFAULT_HOST')
-            self.rabbitmq_vhost = os.environ.get('RABBITMQ_DEFAULT_VHOST')
+
 
         else:
             conf.read('env.ini')
@@ -30,10 +27,6 @@ class AppConfig:
             self.proxy_scheme = conf['proxy']['PROXY_SCHEME']
             self.proxy_host = conf['proxy']['PROXY_HOST']
             self.proxy_port = conf['proxy']['PROXY_PORT']
-            self.rabbitmq_user = conf['rabbitmq']['RABBITMQ_DEFAULT_USER']
-            self.rabbitmq_password = conf['rabbitmq']['RABBITMQ_DEFAULT_PASS']
-            self.rabbitmq_host = conf['rabbitmq']['RABBITMQ_DEFAULT_HOST']
-            self.rabbitmq_vhost = conf['rabbitmq']['RABBITMQ_DEFAULT_VHOST']
         
     def __repr__(self):
         return (f"api_id: {self.api_id}\n"
@@ -44,10 +37,6 @@ class AppConfig:
                 f"proxy_scheme: {self.proxy_scheme}\n"
                 f"proxy_host: {self.proxy_host}\n"
                 f"proxy_port: {self.proxy_port}\n"
-             f"rabbitmq_user: {self.rabbitmq_user}\n"
-             f"rabbitmq_password: {self.rabbitmq_password}\n"
-             f"rabbitmq_host: {self.rabbitmq_password}\n"
-             f"rabbitmq_vhost: {self.rabbitmq_vhost}"
               )
     
     def __str__(self):
@@ -57,10 +46,6 @@ class AppConfig:
             f" Bot Token: '{self.bot_token[:4]}...'\n"
             f" Bot Admin: {self.bot_admin}\n"
             f" Proxy Host: {self.proxy_scheme}:{self.proxy_host}:{self.proxy_port} ({'ON' if self.proxy_on else 'OFF'})\n"
-            f" RabbitMQ Host: {self.rabbitmq_host}\n"
-            f" RabbitMQ VHost: {self.rabbitmq_vhost}\n"
-            f" RabbitMQ User: {self.rabbitmq_user}\n"
-            f" RabbitMQ Password: {self.rabbitmq_password}"
         )
 
             

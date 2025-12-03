@@ -1,5 +1,5 @@
 # Start from the desired base image
-FROM docker.io/library/python:3.12
+FROM python:3.12
 
 # ----------------------------------------------------
 # 1. Setup User and Group with Matching UID/GID
@@ -21,7 +21,7 @@ RUN set -ex; \
 # RUN apt update \
 # && apt-get install -y python3-pip python3-pika python3-venv ffmpeg iputils-ping
 
-RUN apt-get update && apt-get install -y iputils-ping 
+RUN apt-get update && apt-get install -y iputils-ping ffmpeg && rm -rf /var/lib/apt/lists/*
 
 # 2. Create the 'appuser' group and user with the specified UID/GID
 # We use -u and -g flags for useradd on many systems, or use adduser with specific flags.

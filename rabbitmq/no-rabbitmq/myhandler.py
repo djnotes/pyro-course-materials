@@ -11,8 +11,9 @@ from cache import Cache
 from utils import Keys
 import ffmpeg
 from pyrogram.types import CallbackQuery
-from utils import send_task_to_rabbitmq
 from utils import get_my_logger
+from worker import submit_new_task
+import os
 
 
 appConf = AppConfig()
@@ -74,7 +75,6 @@ async def handle_updates(client: Client, message: Message):
                 await message.reply("Wrong input. Expecting music video file")
                 return
             
-            task = Task(task_type = TaskType.EXTRACT_AUDIO, msg_id = message.id, user_id = uid)
             # Query task from queue
             tasks_count = int(cache.get_session_item(uid, Keys.BG_TASKS_RUNNING, 0))
             if tasks_count >= 1:
@@ -82,21 +82,27 @@ async def handle_updates(client: Client, message: Message):
                 return
             else:
 
+                # Prepare task
                 logger.info("Received media message. Downloading file...")
-                filepath = await client.download_media(message, progress = download_progress, progress_args = (message,))
+                status_msg = await message.reply("Download started...")
+                filepath = await client.download_media(message, progress = download_progress, progress_args = (status_msg,))
                 filepath_nospaces = filepath.replace(" ", "-").strip()
                 # Remove spaces from file name
                 shutil.move(filepath, filepath_nospaces)
                 _out_filename, _ = os.path.splitext(filepath_nospaces)
                 out_filename = _out_filename + ".mp3"                
                 
+                task = Task(task_type = TaskType.EXTRACT_AUDIO, in_file = filepath_nospaces , out_file= out_filename, user_id = uid)
 
-                #TODO: Send task to background process without RabbitMQ
-                
+                # Send task to background process without RabbitMQ
                 tasks_count = tasks_count + 1
                 # Set appropriate timeout for the task given the number of tasks
                 cache.update_user_session(uid, Keys.BG_TASKS_RUNNING, tasks_count, tasks_count * Values.MAX_JOB_RUNNING_TIME)
+                
                 await message.reply("Download complete. Starting audio extraction... \nPlease wait...")
+
+                submit_new_task(client, task)
+                
             
         case Values.SEND_PHOTO_ALBUM:
             if not media:
