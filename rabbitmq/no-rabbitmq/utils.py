@@ -48,6 +48,7 @@ class Keys:
     BG_TASKS_RUNNING = "bg_tasks" # Key to keep track of background tasks
     DEFAULT_LOGGER = "default_logger"
     DEFAULT_LOG_FILENAME = "bot.log"
+    RUNNING_PROCESSES = "running_processes"
     
 class Values:
     CONFIRM_KB_REMOVAL = "_confirm_kb_removal_"
