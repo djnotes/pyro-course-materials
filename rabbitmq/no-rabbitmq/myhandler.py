@@ -75,8 +75,10 @@ async def handle_updates(client: Client, message: Message):
                 await message.reply("Wrong input. Expecting music video file")
                 return
             
+            # TODO: Check if system is free to run a new process, i.e. using 
             # Query task from queue
             tasks_count = int(cache.get_session_item(uid, Keys.BG_TASKS_RUNNING, 0))
+            # Check running tasks for this user
             if tasks_count >= 1:
                 await message.reply("Your queue is busy. Please wait...")
                 return
